@@ -8,9 +8,22 @@ const app = express();
 app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((err) => console.log("Connection error:", err));
+let isConnected = false;
+
+async function connectDB() {
+  if (isConnected) return;
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      serverSelectionTimeoutMS: 30000,
+    });
+    isConnected = true;
+    console.log("MongoDB connected");
+  } catch (err) {
+    console.log("Connection error:", err);
+  }
+}
+
+connectDB();
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 })
