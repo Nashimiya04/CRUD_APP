@@ -24,6 +24,11 @@ async function connectDB() {
 }
 
 connectDB();
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 app.get("/", (req, res) => {
   res.send("Backend is running!");
 })
