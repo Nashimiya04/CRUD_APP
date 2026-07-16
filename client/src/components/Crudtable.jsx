@@ -3,7 +3,7 @@ import axios from "axios";
 import { Trash2, Pencil, Plus, X, Check, Loader2 } from "lucide-react";
 
 
-const API_URL = "http://localhost:5000/users";
+const API_URL = "https://crud-app-two-ruddy.vercel.app/users";
 
 const api = axios.create({ baseURL: API_URL });
 
