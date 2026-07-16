@@ -1,4 +1,4 @@
-﻿const express = require("express");
+const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
@@ -11,7 +11,9 @@ app.use(express.json({ limit: "10mb" }));
 mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log("Connection error:", err));
-
+app.get("/", (req, res) => {
+  res.send("Backend is running!");
+})
 app.get("/users", async (req, res) => {
   try {
     const users = await User.find();
@@ -49,4 +51,8 @@ app.delete("/users/:id", async (req, res) => {
   }
 });
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+if (process.env.NODE_ENV !== "production") {
+  app.listen(5000, () => console.log("Server running on port 5000"));
+}
+
+module.exports = app;
